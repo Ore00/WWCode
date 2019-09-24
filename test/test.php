@@ -5,7 +5,7 @@ try{
 $path = str_replace("test", "", __DIR__);
 require($path . "/model/Couples.php");
 require($path . "/model/Events.php");
-
+require($path . "/model/RSVPs.php");
 
 $couple = new Couples(1);
 //$couple->set_value("couple_id", 1);
@@ -41,6 +41,21 @@ $event->set_value("last_update_date", "CURRENT_TIMESTAMP");
 
 echo $event->get_type() . " : " . $event->get_name() . PHP_EOL;
 echo $event->get_address() . " " . $event->get_city() . ", " . $event->get_state() . " " . $event->get_zip() . PHP_EOL;
+
+/*test rsvps class*/
+$rsvp = new RSVPs();
+$rsvp->set_value("event_id", 1);
+$rsvp->set_value("first_name", "Bob");
+$rsvp->set_value("last_name", "Example");
+$rsvp->set_value("email", "bob@example.com");
+$rsvp->set_value("events", "All Events");
+$rsvp->set_value("status", "Going");
+$rsvp->set_value("number_in_party", "3");
+$rsvp->set_value("create_date", "CURRENT_TIMESTAMP");
+$rsvp->set_value("last_update_date", "CURRENT_TIMESTAMP");
+
+echo "Guest: " . $rsvp->get_first_name() . " " . $rsvp->get_last_name() . PHP_EOL . "Contact: " . $rsvp->get_email() . PHP_EOL;
+echo "Event(s): " . $rsvp->get_events() . " : " . $rsvp->get_status() . " # in party: " . $rsvp->get_number_in_party() . PHP_EOL;
 }catch(Exception $e){
     echo $e->getMessage() . PHP_EOL;
 

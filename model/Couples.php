@@ -1,11 +1,11 @@
 <?php
 
-require("includes/functions.inc");
+require_once("includes/functions.inc");
 class Couples{
   protected $couple_id;
   protected $groom_first_name;
   protected $groom_last_name;
-  protected $groom_emai;
+  protected $groom_email;
   protected $bride_first_name;
   protected $bride_last_name;
   protected $bride_email;
