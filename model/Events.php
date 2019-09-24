@@ -25,7 +25,7 @@ class Events{
 
     if($event_id != null){
       self::set_value('event_id', $event_id);
-      self::read();
+      self::read($event_id);
     }
   }
   function create(){
@@ -51,7 +51,7 @@ class Events{
       $col = implode(",", $labelArray) ;
       $val = implode(", ", $valueArray);
       $sql = "INSERT INTO events ( $col ) values ( $val )";
-      
+
       $connection->query($sql);
 
       $error = $connection->sql_error();
@@ -74,7 +74,7 @@ class Events{
     {
       $connection = new DBQuery;
       if($connection->sql_error() == false){
-        $sql = "SELECT * FROM `events` where couple_id = $event_id";
+        $sql = "SELECT * FROM `events` where event_id = $event_id";
         $result = $connection->query($sql);
         if($connection->sql_error() == false){
           if( $connection->numRows($result) > 0)
@@ -104,15 +104,44 @@ class Events{
   }
   function update(){
     //update event in the database
-
+    
   }
   function delete(){
     //remove a event from the database
+      throw new Exception("Deleting an event isn't allowed for this project.");
 
   }
-  function get_all(){
+  function get_all($event_id = null){
     //get all event from the database
+    if($event_id != null || $event_id != "")
+    {
+      $connection = new DBQuery;
+      if($connection->sql_error() == false){
+        $sql = "SELECT * FROM `events` where event_id = $event_id or master_event_id = $event_id";
+        $result = $connection->query($sql);
+        if($connection->sql_error() == false){
+          if( $connection->numRows($result) > 0)
+          {
+            $data = $connection->fetchAll($result);
 
+          }else{
+
+            throw new Exception("Event id " . $event_id . " not found.");
+          }
+
+        }else{
+
+          throw new Exception($connection->sql_error());
+        }
+      }
+      $connection->freeResult($result);
+      $connection->close();
+    }else {
+
+      throw new Exception("Search incomplete: event id is missing.");
+    }
+
+    return  (isset($data) && is_array($data)) ? $data : array();
   }
   function set_all($data = array()){
 
@@ -122,7 +151,7 @@ class Events{
         self::set_value($key, $value);
       }
     }else{
-      throw new Exception("Cannot set all couples array of values not provided.");
+      throw new Exception("Cannot set all events, array of values not provided.");
     }
   }
   function get_state_list(){   global $state_codes;  return $state_codes;   }
@@ -215,6 +244,18 @@ class Events{
     if(self::get_last_update_date() == null){throw new Exception("Last update date is required.");}
 
 
+  }
+
+  function get_Event_Types($event_id = null){
+      if($event_id == null){  throw new Exception("Can't determin Event types because the event id is missing."); }
+      $events_with_master_id = self::get_all($event_id);
+      $event_type = array();
+      foreach ($events_with_master_id as $key){
+
+          array_push($event_type, $key["type"]);
+
+      }
+      return $event_type;
   }
 }
 ?>

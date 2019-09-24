@@ -22,7 +22,7 @@ class RSVPs{
     }
   }
   function create(){
-    //create a new couple in the database
+    //create a new rsvp in the database
     $insertId = NULL;
 
     self::set_value("last_update_date", 'CURRENT_TIMESTAMP');
@@ -61,7 +61,7 @@ class RSVPs{
     return $insertId;
   }
   function read($rsvp_id = null){
-    //get couple details from the database
+    //get rsvp details from the database
     if($rsvp_id != NULL || $rsvp_id != "")
     {
       $connection = new DBQuery;
@@ -126,12 +126,36 @@ class RSVPs{
 
     return $affectedRows;
   }
-  function delete(){
-    //remove a couple from the database
-
+  function delete($rsvp_id = null){
+    //remove a rsvp from the database
+      throw new Exception("Deleting a rsvp isn't allowed for this project.");
   }
-  function get_all(){
-    //get all couples from the database
+  function get_all($event_id == null){
+    //get all rsvps from the database
+
+      $connection = new DBQuery;
+      if($connection->sql_error() == false){
+
+        $sql = ($event_id !=null ) : "SELECT * FROM `rsvps` where event_id = $event_id" : "SELECT * FROM `rsvps`";
+        $result = $connection->query($sql);
+        if($connection->sql_error() == false){
+          if( $connection->numRows($result) > 0)
+          {
+            $data = $connection->fetchAll($result);
+
+          }else{
+
+            throw new Exception("RSVP id " . $rsvp_id . " not found.");
+          }
+
+        }else{
+
+          throw new Exception($connection->sql_error());
+        }
+      }
+      $connection->freeResult($result);
+      $connection->close();
+    return  (isset($data) && is_array($data)) ? $data : array();
   }
   function set_all($data = array()){
 
@@ -141,7 +165,7 @@ class RSVPs{
         self::set_value($key, $value);
       }
     }else{
-      throw new Exception("Cannot set all couples array of values not provided.");
+      throw new Exception("Cannot set all rsvps, array of values not provided.");
     }
   }
   function set_value($attribute, $value ){
