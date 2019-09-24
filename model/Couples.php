@@ -1,6 +1,12 @@
 <?php
 
 require_once("includes/functions.inc");
+
+if(!class_exists("DBQuery")){
+
+  require_once(base_path .'/vendor/DBQuery.php');
+}
+
 class Couples{
   protected $couple_id;
   protected $groom_first_name;
@@ -27,9 +33,77 @@ class Couples{
   }
   function create(){
     //create a new couple in the database
+
+    $insertId = NULL;
+
+    self::set_value("last_update_date", 'CURRENT_TIMESTAMP');
+    self::set_value("create_date", 'CURRENT_TIMESTAMP');
+    self::validate_values();
+
+    $connection = new DBQuery();
+    if($connection->sql_error()  == false){
+      $labelArray = array("groom_first_name", "groom_last_name", "groom_email", "bride_first_name", "bride_last_name",
+       "bride_email", "primary_contact", "couple_address", "couple_city", "couple_state", "couple_zip", "create_date", "last_update_date");
+
+      $valueArray = array("'" . $this->get_groom_first_name() ."'", "'" .$this->get_groom_last_name(). "'", "'" .$this->get_groom_email() ."'",
+      "'". $this->get_bride_first_name() ."'", "'". $this->get_bride_last_name() ."'", "'" . $this->get_bride_email() ."'",
+      "'". $this->get_primary_contact(). "'", "'". $this->get_couple_address() ."'", "'". $this->get_couple_city() ."'", "'". $this->get_couple_state() ."'",
+      "'". $this->get_couple_zip() ."'",
+      $this->get_create_date(),
+      $this->get_last_update_date());
+      $col = implode(",", $labelArray) ;
+      $val = implode(", ", $valueArray);
+      $sql = "INSERT INTO couples ( $col ) values ( $val )";
+      
+      $connection->query($sql);
+
+      $error = $connection->sql_error();
+      if($connection->sql_error() == false){
+        $insertId = $connection->lastInsertedID();
+        self::read($insertId);
+      }else{
+        throw new Exception($connection->sql_error());
+      }
+      $connection->close();
+    }else{
+      throw new Exception($connection->sql_error());
+    }
+
+    return $insertId;
   }
-  function read(){
-    //get couple details from the database
+  function read($couple_id = null){
+    //get a couple row of  details from the database
+    if($couple_id != NULL || $couple_id != "")
+    {
+      $connection = new DBQuery;
+      if($connection->sql_error() == false){
+        $sql = "SELECT * FROM `couples` where couple_id = $couple_id";
+        $result = $connection->query($sql);
+        if($connection->sql_error() == false){
+          if( $connection->numRows($result) > 0)
+          {
+            $data = $connection->fetchAssoc($result);
+            //set all values to row
+            if(is_array($data)){ self::set_all($data); }
+
+          }else{
+
+            throw new Exception("Couple id " . $couple_id . " not found.");
+          }
+
+        }else{
+
+          throw new Exception($connection->sql_error());
+        }
+      }
+      $connection->freeResult($result);
+      $connection->close();
+    }else {
+
+      throw new Exception("Search incomplete: couple id is missing.");
+    }
+
+    return  (isset($data) && is_array($data)) ? $data : array();
   }
   function update(){
     //update couple in the database
@@ -42,7 +116,17 @@ class Couples{
   function get_all(){
     //get all couples from the database
   }
+  function set_all($data = array()){
 
+    if(is_array($data) && count($data) > 1){
+
+      foreach($data as $key => $value){
+        self::set_value($key, $value);
+      }
+    }else{
+      throw new Exception("Cannot set all couples array of values not provided.");
+    }
+  }
   function get_state_list(){   global $state_codes;  return $state_codes;   }
   function set_value($attribute, $value ){
     //this model doesn't accept any null values
@@ -118,6 +202,24 @@ class Couples{
   function get_create_date(){ return $this->create_date; }
   function get_last_update_date(){ return $this->last_update_date; }
 
+  function validate_values(){
+
+    if(self::get_groom_first_name() == null){throw new Exception("Groom First name is required.");}
+    if(self::get_groom_last_name() == null){throw new Exception("Groom Last name is required.");}
+    if(self::get_groom_email() == null){throw new Exception("Groom email is required.");}
+    if(self::get_bride_first_name() == null){throw new Exception("Bride First name is required.");}
+    if(self::get_bride_last_name() == null){throw new Exception("Bride Last name is required.");}
+    if(self::get_bride_email() == null){throw new Exception("Bride email is required.");}
+    if(self::get_couple_address() == null){throw new Exception("Couple Address is required.");}
+    if(self::get_couple_city() == null){throw new Exception("Couple city is required.");}
+    if(self::get_couple_state() == null){throw new Exception("Couple state is required.");}
+    if(self::get_couple_zip() == null){throw new Exception("Couple zip is required.");}
+    if(self::get_primary_contact() == null){throw new Exception("Primary contact is required.");}
+    if(self::get_create_date() == null){throw new Exception("Create date is required.");}
+    if(self::get_last_update_date() == null){throw new Exception("Last update date is required.");}
+
+
+  }
 
 
 }
