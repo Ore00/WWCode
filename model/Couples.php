@@ -20,10 +20,10 @@ class Couples{
 
   function Couples($couple_id = null){
 
-      if($couple_id != null){
-         self::set_value('couple_id', $couple_id);
-         self::read();
-      }
+    if($couple_id != null){
+      self::set_value('couple_id', $couple_id);
+      self::read();
+    }
   }
   function create(){
     //create a new couple in the database
@@ -51,55 +51,55 @@ class Couples{
     switch($attribute){
 
       case "couple_id":
-        $this->couple_id = $value;
-        break;
-      case "groom_first_name":
-        $this->groom_first_name = $value;
-        break;
-      case "groom_last_name":
-        $this->groom_last_name = $value;
-        break;
-      case "groom_email":
-        $this->groom_email = $value;
+      $this->couple_id = $value;
       break;
-     case "bride_first_name":
-        $this->bride_first_name = $value;
-        break;
+      case "groom_first_name":
+      $this->groom_first_name = $value;
+      break;
+      case "groom_last_name":
+      $this->groom_last_name = $value;
+      break;
+      case "groom_email":
+      $this->groom_email = $value;
+      break;
+      case "bride_first_name":
+      $this->bride_first_name = $value;
+      break;
       case "bride_last_name":
-        $this->bride_last_name = $value;
-        break;
+      $this->bride_last_name = $value;
+      break;
       case "bride_email":
-        $this->bride_email = $value;
-        break;
+      $this->bride_email = $value;
+      break;
       case "primary_contact":
-        if($value == "Groom" || $value == "Bride"){
-          $this->primary_contact = $value;
-        }else{
-            throw new Exception("Attribute Primary Contact must equal 'Groom or Bride'. Value " . $value . " is invalid.");
-        }
-        break;
+      if($value == "Groom" || $value == "Bride"){
+        $this->primary_contact = $value;
+      }else{
+        throw new Exception("Attribute Primary Contact must equal 'Groom or Bride'. Value " . $value . " is invalid.");
+      }
+      break;
       case "couple_address":
-        $this->couple_address = $value;
-        break;
+      $this->couple_address = $value;
+      break;
       case "couple_city":
-        $this->couple_city = $value;
-        break;
+      $this->couple_city = $value;
+      break;
       case "couple_state":
-        global $state_codes;
-       if(!in_array($value, $this->get_state_list())){   throw new Exception("Invalid state code " . $value);}
-        $this->couple_state = $value;
-        break;
+      global $state_codes;
+      if(!in_array($value, $this->get_state_list())){   throw new Exception("Invalid state code " . $value);}
+      $this->couple_state = $value;
+      break;
       case "couple_zip":
-        $this->couple_zip = $value;
-        break;
+      $this->couple_zip = $value;
+      break;
       case "create_date":
-        $this->create_date = $value;
-        break;
+      $this->create_date = $value;
+      break;
       case "last_update_date":
-        $this->last_update_date = $value;
-        break;
+      $this->last_update_date = $value;
+      break;
       default:
-            throw new Exception("Attribute " . $attribute . " not found.");
+      throw new Exception("Attribute " . $attribute . " not found.");
     }
   }
 
