@@ -104,7 +104,7 @@ class Events{
   }
   function update(){
     //update event in the database
-    
+    throw new Exception("Updating an event isn't configured for this project.");
   }
   function delete(){
     //remove a event from the database

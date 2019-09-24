@@ -28,7 +28,7 @@ class Couples{
 
     if($couple_id != null){
       self::set_value('couple_id', $couple_id);
-      self::read();
+      self::read($couple_id);
     }
   }
   function create(){
@@ -54,7 +54,7 @@ class Couples{
       $col = implode(",", $labelArray) ;
       $val = implode(", ", $valueArray);
       $sql = "INSERT INTO couples ( $col ) values ( $val )";
-      
+
       $connection->query($sql);
 
       $error = $connection->sql_error();
@@ -107,14 +107,39 @@ class Couples{
   }
   function update(){
     //update couple in the database
-
+      throw new Exception("Updating a couple isn't configured for this project.");
   }
   function delete(){
     //remove a couple from the database
-
+      throw new Exception("Deleting a couple isn't allowed for this project.");
   }
   function get_all(){
     //get all couples from the database
+
+      $connection = new DBQuery;
+      if($connection->sql_error() == false){
+        $sql = "SELECT * FROM `couples`";
+        $result = $connection->query($sql);
+        if($connection->sql_error() == false){
+          if( $connection->numRows($result) > 0)
+          {
+            $data = $connection->fetchAll($result);
+
+          }else{
+
+            throw new Exception("No Couples found.");
+          }
+
+        }else{
+
+          throw new Exception($connection->sql_error());
+        }
+      }
+      $connection->freeResult($result);
+      $connection->close();
+
+
+    return  (isset($data) && is_array($data)) ? $data : array();
   }
   function set_all($data = array()){
 

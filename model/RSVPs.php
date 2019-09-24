@@ -1,6 +1,10 @@
 <?php
 
 require_once("includes/functions.inc");
+if(!class_exists("DBQuery")){
+
+  require_once(base_path .'/vendor/DBQuery.php');
+}
 class RSVPs{
   protected $rsvp_id;
   protected $event_id;
@@ -18,7 +22,7 @@ class RSVPs{
 
     if($rsvp_id != null){
       self::set_value('rsvp_id', $rsvp_id);
-      self::read();
+      self::read($rsvp_id);
     }
   }
   function create(){
@@ -87,7 +91,7 @@ class RSVPs{
       }
       $connection->freeResult($result);
       $connection->close();
-    }else {
+    }else{
 
       throw new Exception("Search incomplete: RSVP id is missing.");
     }
@@ -106,7 +110,7 @@ class RSVPs{
       $connection = new DBQuery();
       if($connection->sql_error()  == false){
           $sql = "UPDATE `rsvps` SET `event_id` = '". $this->event_id . "' ,  `first_name` = '" . $this->first_name  .  "' ,  `last_name` = '" . $this->last_name  .  "',  `email` = '" . $this->email  .  "',
-           `events` = '". $this->events . "' ,  `number_in_party` = '". $this->number_in_party . "' ,  `status` = '". $this->status . "' ,  `last_update_date` = '". $this->last_update_date . "'  WHERE `rsvp_id` = $rsvp_id";
+           `events` = '". $this->events . "' ,  `number_in_party` = '". $this->number_in_party . "' ,  `status` = '". $this->status . "' ,  `last_update_date` = $this->last_update_date   WHERE `rsvp_id` = $rsvp_id";
 
             $connection->link->query($sql);
             //check to see if the sql error
@@ -130,13 +134,13 @@ class RSVPs{
     //remove a rsvp from the database
       throw new Exception("Deleting a rsvp isn't allowed for this project.");
   }
-  function get_all($event_id == null){
+  function get_all($event_id = null){
     //get all rsvps from the database
 
       $connection = new DBQuery;
       if($connection->sql_error() == false){
 
-        $sql = ($event_id !=null ) : "SELECT * FROM `rsvps` where event_id = $event_id" : "SELECT * FROM `rsvps`";
+        $sql = ($event_id !=null ) ? "SELECT * FROM `rsvps` where event_id = $event_id" : "SELECT * FROM `rsvps`";
         $result = $connection->query($sql);
         if($connection->sql_error() == false){
           if( $connection->numRows($result) > 0)
