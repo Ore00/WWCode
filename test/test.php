@@ -51,7 +51,7 @@ echo $event->get_address() . " " . $event->get_city() . ", " . $event->get_state
 
 /*test rsvps class*/
 $rsvp = new RSVPs();
-$rsvp->set_value("event_id", 1);
+$rsvp->set_value("event_id", $event->get_event_id());
 $rsvp->set_value("first_name", "Bob");
 $rsvp->set_value("last_name", "Example");
 $rsvp->set_value("email", "bob@example.com");
@@ -60,9 +60,16 @@ $rsvp->set_value("status", "Going");
 $rsvp->set_value("number_in_party", "3");
 $rsvp->set_value("create_date", "CURRENT_TIMESTAMP");
 $rsvp->set_value("last_update_date", "CURRENT_TIMESTAMP");
-
-echo "Guest: " . $rsvp->get_first_name() . " " . $rsvp->get_last_name() . PHP_EOL . "Contact: " . $rsvp->get_email() . PHP_EOL;
+$rsvp->create();
+echo "rspv id: " .  $rsvp->get_rsvp_id();
+echo " Guest: " . $rsvp->get_first_name() . " " . $rsvp->get_last_name() . PHP_EOL . "Contact: " . $rsvp->get_email() . PHP_EOL;
 echo "Event(s): " . $rsvp->get_events() . " : " . $rsvp->get_status() . " # in party: " . $rsvp->get_number_in_party() . PHP_EOL;
+ $rsvp->set_value("number_in_party", "2");
+$rsvp->update( $rsvp->get_rsvp_id());
+
+ echo "rspv id: " .  $rsvp->get_rsvp_id();
+ echo " #In Party: " . $rsvp->get_number_in_party() . PHP_EOL;
+
 }catch(Exception $e){
     echo $e->getMessage() . PHP_EOL;
 
