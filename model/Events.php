@@ -40,7 +40,7 @@ class Events{
     $connection = new DBQuery();
     if($connection->sql_error()  == false){
       $labelArray = array("couple_id", "master_event_id", "name", "type", "start_date_time",
-       "end_date_time", "reply_by_date", "address", "city", "state", "zip", "create_date", "last_update_date");
+      "end_date_time", "reply_by_date", "address", "city", "state", "zip", "create_date", "last_update_date");
 
       $valueArray = array("'" . $this->get_couple_id() ."'", "'" .$this->get_master_event_id(). "'", "'" .$this->get_name() ."'",
       "'". $this->get_type() ."'", "'". $this->get_start_date_time() ."'", "'" . $this->get_end_date_time() ."'",
@@ -108,7 +108,7 @@ class Events{
   }
   function delete(){
     //remove a event from the database
-      throw new Exception("Deleting an event isn't allowed for this project.");
+    throw new Exception("Deleting an event isn't allowed for this project.");
 
   }
   function get_all($event_id = null){
@@ -246,16 +246,80 @@ class Events{
 
   }
 
-  function get_Event_Types($event_id = null){
-      if($event_id == null){  throw new Exception("Can't determin Event types because the event id is missing."); }
-      $events_with_master_id = self::get_all($event_id);
-      $event_type = array();
-      foreach ($events_with_master_id as $key){
+  function get_event_types($event_id = null){
+    if($event_id == null){  throw new Exception("Can't determin Event types because the event id is missing."); }
+    $events_with_master_id = self::get_all($event_id);
+    $event_type = array();
+    foreach ($events_with_master_id as $key){
 
-          array_push($event_type, $key["type"]);
+      array_push($event_type, $key["type"]);
+
+    }
+    return $event_type;
+  }
+  function get_events_by_couple($couple_id = null){
+    //get event details from the database
+    if($couple_id != NULL || $couple_id != "")
+    {
+      $connection = new DBQuery;
+      if($connection->sql_error() == false){
+        $sql = "SELECT * FROM `events` where couple_id = $couple_id";
+        $result = $connection->query($sql);
+        if($connection->sql_error() == false){
+          if( $connection->numRows($result) > 0)
+          {
+            $data = $connection->fetchall($result);
+
+          }else{
+
+            throw new Exception("Event not found.");
+          }
+
+        }else{
+
+          throw new Exception($connection->sql_error());
+        }
+      }
+      $connection->freeResult($result);
+      $connection->close();
+    }else {
+
+      throw new Exception("Search incomplete: event id is missing.");
+    }
+
+    return  (isset($data) && is_array($data)) ? $data : array();
+  }
+  function get_event_details($result = array() ){
+    // $start_datetime = strtotime($event_wedding["start_date_time"]);
+    // $start_time = date("g:i A", $start_datetime);
+    // $wedding_date = date("d.m.Y", $start_datetime);
+    $data = array();
+    if( gettype($result) == "array" && count($result) > 0)
+    {
+      foreach($result as $row){
+        $start_datetime = strtotime($row["start_date_time"]);
+
+        $data["type"] = $row["type"];
+        if($row["type"] == "Wedding"){
+          $data["start_datetime"] = strtotime($row["start_date_time"]);
+          $data["reply_datetime"] = strtotime($row["reply_by_date"]);
+          $data["wedding_time"] = date("g:i A",   $data["start_datetime"]);
+          $data["wedding_date"] = date("d.m.Y",   $data["start_datetime"]);
+          $data["reply_date"] = date("F, Y",   $data["reply_datetime"]);
+          $data["wedding_venue"] = $row["name"];
+          $data["wedding_address"] = $row["address"] . " " . $row["city"] . ", " . $row["state"] . " " . $row["zip"];
+        }elseif($row["type"] == "Reception"){
+           $data["reception_start_datetime"] = strtotime($row["start_date_time"]);
+          $data["reception_time"] = date("g:i A",   $data["reception_start_datetime"]);
+          $data["reception_date"] = date("d.m.Y",   $data["reception_start_datetime"]);
+          $data["reception_venue"] = $row["name"];
+          $data["reception_address"] = $row["address"] . " " . $row["city"] . ", "  . $row["state"] . " " . $row["zip"];
+        }
 
       }
-      return $event_type;
+    }
+    return $data;
   }
+
 }
 ?>

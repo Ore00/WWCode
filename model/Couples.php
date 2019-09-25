@@ -20,6 +20,7 @@ class Couples{
   protected $couple_city;
   protected $couple_state;
   protected $couple_zip;
+  protected $couple_story;
   protected $create_date;
   protected $last_update_date;
 
@@ -43,12 +44,13 @@ class Couples{
     $connection = new DBQuery();
     if($connection->sql_error()  == false){
       $labelArray = array("groom_first_name", "groom_last_name", "groom_email", "bride_first_name", "bride_last_name",
-       "bride_email", "primary_contact", "couple_address", "couple_city", "couple_state", "couple_zip", "create_date", "last_update_date");
+       "bride_email", "primary_contact", "couple_address", "couple_city", "couple_state", "couple_zip",
+        "couple_story", "create_date", "last_update_date");
 
       $valueArray = array("'" . $this->get_groom_first_name() ."'", "'" .$this->get_groom_last_name(). "'", "'" .$this->get_groom_email() ."'",
       "'". $this->get_bride_first_name() ."'", "'". $this->get_bride_last_name() ."'", "'" . $this->get_bride_email() ."'",
       "'". $this->get_primary_contact(). "'", "'". $this->get_couple_address() ."'", "'". $this->get_couple_city() ."'", "'". $this->get_couple_state() ."'",
-      "'". $this->get_couple_zip() ."'",
+      "'". $this->get_couple_zip() ."'", "'". $this->get_couple_story() ."'",
       $this->get_create_date(),
       $this->get_last_update_date());
       $col = implode(",", $labelArray) ;
@@ -201,6 +203,9 @@ class Couples{
       case "couple_zip":
       $this->couple_zip = $value;
       break;
+      case "couple_story":
+      $this->couple_story = $value;
+      break;
       case "create_date":
       $this->create_date = $value;
       break;
@@ -224,6 +229,7 @@ class Couples{
   function get_couple_city(){ return $this->couple_city; }
   function get_couple_state(){ return $this->couple_state; }
   function get_couple_zip(){ return $this->couple_zip; }
+  function get_couple_story(){ return $this->couple_story; }
   function get_create_date(){ return $this->create_date; }
   function get_last_update_date(){ return $this->last_update_date; }
 

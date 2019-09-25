@@ -15,6 +15,7 @@ CREATE TABLE `couples` (
   `couple_city` varchar(50) NOT NULL,
   `couple_state` varchar(2) NOT NULL,
   `couple_zip` varchar(5) NOT NULL,
+  `couple_story` LONGTEXT NULL,
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
