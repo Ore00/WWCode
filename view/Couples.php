@@ -199,7 +199,7 @@ p {line-height: 2}
 
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-16">
-  <p>Powered by <a href="<?php echo site_url;?>" title="<?php echo owner_name;?>" target="_blank" class="w3-hover-text-green"><?php echo owner_name;?></a></p>
+  <p>Powered by <a  class="w3-text-white" href="<?php echo site_url;?>" title="<?php echo owner_name;?>" target="_blank" class="w3-hover-text-green"><?php echo owner_name;?></a></p>
 </footer>
 <div class="w3-hide-small" style="margin-bottom:32px"> </div>
 <script src="view/js/jquery-3.1.1.js"></script>
