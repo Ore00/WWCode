@@ -154,6 +154,33 @@ class Events{
       throw new Exception("Cannot set all events, array of values not provided.");
     }
   }
+  function get_all_weddings($event_id = null){
+    //get all wedding events from the database
+
+      $connection = new DBQuery;
+      if($connection->sql_error() == false){
+
+        $sql = ($event_id !=null ) ? "SELECT * FROM `wedding_list` where event_id = $event_id" : "SELECT * FROM `wedding_list`";
+        $result = $connection->query($sql);
+        if($connection->sql_error() == false){
+          if( $connection->numRows($result) > 0)
+          {
+            $data = $connection->fetchAll($result);
+
+          }else{
+
+            throw new Exception("Event List not found.");
+          }
+
+        }else{
+
+          throw new Exception($connection->sql_error());
+        }
+      }
+      $connection->freeResult($result);
+      $connection->close();
+    return  (isset($data) && is_array($data)) ? $data : array();
+  }
   function get_state_list(){   global $state_codes;  return $state_codes;   }
   function set_value($attribute, $value ){
     //this model doesn't accept any null values

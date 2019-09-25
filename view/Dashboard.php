@@ -1,9 +1,30 @@
 <?php
-  error_reporting('E_NONE');
-  try{
+/*
+* * Copyright (C) 2018 Women Who Code - Linda McGraw
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+error_reporting('E_NONE');
+try{
     if(!class_exists("DBQuery")){
 
       require_once(base_path .'/vendor/DBQuery.php');
+    }
+
+    if(!class_exists("Events")){
+      require_once("model/Events.php");
     }
   require_once("view/includes/getFile.php");
   require_once("view/includes/web_settings.inc");
@@ -13,7 +34,8 @@
   }else{
     $eventId = 1;
   }
-
+    $events = new Events();
+    $mrows = $events->get_all_weddings();
     $tbl = getReportDetails($eventId, "DataList", True, "dashboard");
     $tblReport = getReportDetails($eventId, "DataListReport", True, "report");
 
@@ -110,7 +132,7 @@ try{
 
 </div>
 
-<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="view/js/jquery-1-8-2.min.js"></script>
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
 
 <script>

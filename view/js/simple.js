@@ -98,7 +98,7 @@ function getAjaxResults(data, url, callback){
     timeout: 180000,
     data: data
     }).done(function(data){
-    
+      
     var JSONstr = JSON.parse(data);
             step =  JSONstr;
             callback(step);

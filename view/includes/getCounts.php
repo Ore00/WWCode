@@ -17,34 +17,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-//error_reporting('E_NONE');
-Try{
+error_reporting('E_NONE');
+try{
 
   if(!class_exists("DBQuery")){
 
     require_once(  '../../vendor/DBQuery.php');
 
   }
+  if(!class_exists("RSVPs")){
+    require_once("../../model/RSVPs.php");
+  }
 
-  $con = new DBQuery();
   $err = "";
   $msg = "";
-  if($con->sql_error()  == false){
+  $client = filter_input(INPUT_POST, "client");
+  $rsvp = new RSVPs();
+  $rows = $rsvp->get_all($client);
+  $dataArray = array();
 
-     $client =  filter_input(INPUT_POST, "client");
-     $sqlCheck = "SELECT events, status, number_in_party as Total FROM `rsvps` where `event_id`= $client";
-     $result = $con->query($sqlCheck);
-     //if no error get the number of records
-     if($con->sql_error()  == false){
-          $num = $con->numRows($result);
-     }else{
-          $err = $con->sql_error();
-     }
-     if($num > 0){
-
-         $rows = $con->fetchAll($result);
-     }
-
+     $num = (isset($rows)) ? count($rows) : 0;
      $rsvpLimit =  100;
      $inviationsSent =  250;
      $totalResponses = $num;
@@ -54,7 +46,7 @@ Try{
      $notGoingCountReception = 0;
      $goingTotal = 0;
      $errorTotalCount = 0;
-     if (isset($num) && @$num > 0 ){
+     if ($num > 0 ){
        foreach($rows as $row){
             //Count for Wedding Going
             if($row["status"] == "Going"){
@@ -88,12 +80,12 @@ Try{
               $errorTotalCount = $errorTotalCount + $row["Total"];
             }
        }
-       $con->close();
+    
           $dataArray = array($errorTotalCount, $goingCountWedding, $notGoingCountWedding,
           $goingCountReception, $notGoingCountReception, $goingTotal, $totalResponses,
           $inviationsSent, $rsvpLimit);
       }
-   }
+   //}
 
    echo json_encode([ "reportInfo" => $dataArray, "sysError" => $err, "msg" => $msg, "sent_client" => $client]);
 

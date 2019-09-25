@@ -140,7 +140,7 @@ class RSVPs{
       $connection = new DBQuery;
       if($connection->sql_error() == false){
 
-        $sql = ($event_id !=null ) ? "SELECT * FROM `rsvps` where event_id = $event_id" : "SELECT * FROM `rsvps`";
+        $sql = ($event_id !=null ) ? "SELECT *, number_in_party as Total FROM `rsvps` where event_id = $event_id" : "SELECT * FROM `rsvps`";
         $result = $connection->query($sql);
         if($connection->sql_error() == false){
           if( $connection->numRows($result) > 0)
@@ -161,6 +161,7 @@ class RSVPs{
       $connection->close();
     return  (isset($data) && is_array($data)) ? $data : array();
   }
+  
   function set_all($data = array()){
 
     if(is_array($data) && count($data) > 1){

@@ -13,7 +13,6 @@ class Controller {
     {
         $this->model = new Model();
         $this->url =  $_SERVER['REQUEST_URI'];
-
     }
 
 	public function invoke()
@@ -25,6 +24,7 @@ class Controller {
 			include 'view/CoupleList.php';
 		}
     else if(isset($_GET['type']) && $_GET['type'] == "dashboard" && isset($_GET['couple'])){
+       //show dashboard 
       include 'view/Dashboard.php';
     }
 		else
