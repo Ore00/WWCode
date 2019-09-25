@@ -149,7 +149,7 @@ class RSVPs{
 
           }else{
 
-            throw new Exception("RSVP id " . $rsvp_id . " not found.");
+            throw new Exception("No RSVPs were not found.");
           }
 
         }else{
@@ -161,7 +161,7 @@ class RSVPs{
       $connection->close();
     return  (isset($data) && is_array($data)) ? $data : array();
   }
-  
+
   function set_all($data = array()){
 
     if(is_array($data) && count($data) > 1){

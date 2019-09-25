@@ -126,7 +126,7 @@ class Events{
 
           }else{
 
-            throw new Exception("Event id " . $event_id . " not found.");
+            throw new Exception("No event were found.");
           }
 
         }else{

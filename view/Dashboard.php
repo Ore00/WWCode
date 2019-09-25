@@ -123,7 +123,7 @@ try{
       <div id="table2" class="row">
         <div class="col-sm-12">
           <?php
-          if(isset($tblReport)){
+          if(isset($tblReport) && $tblReport != "No RSVPs were not found."){
              echo $tblReport;
           }
           ?>
