@@ -47,12 +47,6 @@ try{
 
 <link rel="stylesheet" href="view/css/w3.css">
 <link rel="stylesheet" href="view/css/google_font.css">
-<!-- add ins -->
-<link rel="stylesheet" href="view/css/bootstrap.css">
-<link rel="stylesheet" href="view/css/bootstrap.min.css">
-<link rel="stylesheet" href="view/css/simple.css">
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
 <style>
 body,h1,h2{font-family: "Raleway", sans-serif}
 body, html {height: 100%}
@@ -146,62 +140,31 @@ p {line-height: 2}
 
 <!-- RSVP modal -->
 <div id="id01" class="w3-modal">
-  <div class="w3-modal-content w3-card-4 w3-animate-zoom w3-round-xxlarge" style="padding:20px;max-width:600px">
+  <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="padding:32px;max-width:600px">
     <div class="w3-container w3-white w3-center">
-      <h2 class="w3-xxxlarge">Are You Attending?</h2>
- <span id="closebtn" onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-      <form  id="rsvp_form" class=" w3-padding-64">
-        <div class="w3-row-padding">
-          <div id="formStatus" class=w3-full></div>
-          <div class="w3-half">
-            <input class="w3-input w3-border form-control" id="name"  name="name" type="text" placeholder="Full Name" onclick="this.className = 'form-control'">
-          </div>
-          <div class="w3-half">
-            <input class="w3-input w3-border form-control" id="email" name="email" type="email" placeholder="Email"  onclick="this.className = 'form-control'">
-          </div>
-        </div>
-        <br>
-        <div class="w3-row-padding">
-          <div class="w3-half">
-            <select class="w3-select w3-border form-control" id="guest" name="guest" onclick="this.className = 'form-control'">
-              <option value="" disabled selected>Number in party:</option>
-              <option value="01">01</option>
-              <option value="02">02</option>
-            </select>
-          </div>
-          <div class="w3-half">
-            <select class="w3-select w3-border form-control" id="events" name="events" onclick="this.className = 'form-control'">
-             <option value="" disabled selected>Event:</option>
-              <option value="All Events">All Events</option>
-              <option value="Wedding">Wedding</option>
-              <option value="Reception">Reception</option>
-            </select>
-          </div>
-        </div>
-
+      <h1 class="w3-wide">CAN YOU COME?</h1>
+      <p>We really hope you can make it.</p>
+      <form>
+        <input class="w3-input w3-border" type="text" placeholder="Name(s)" name="name">
       </form>
-      <p id="msg_closed_rsvp" class="w3-text-red" style=display:none><strong>RSVP is now closed.</strong></p>
-      <p><i>Sincerely, <?php echo $name ?></i></p>
-      <div class="w3-row w3-padding-large">
-        <div class="w3-half w3-center">
-          <button id="btnGoing" onclick="processForm('Going')" type="button" class="w3-button w3-block w3-black w3-hover-black form-control">Going</button>
+      <p><i>Sincerely, <?php echo $name; ?></i></p>
+      <div class="w3-row">
+        <div class="w3-half">
+          <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-button w3-block w3-green">Going</button>
         </div>
-        <div class="w3-half w3-center">
-          <!-- document.getElementById('id01').style.display='none' -->
-          <button id="btnNotGoing" onclick="processForm('Not Going')" type="button" class="w3-button w3-block w3-gray form-control">Cannot Go</button>
+        <div class="w3-half">
+          <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-button w3-block w3-red">Can't come</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-16">
-  <p>Powered by <a href="<?php echo site_url;?>" title="<?php echo owner_name;?>" target="_blank" class="w3-hover-text-green"><?php echo owner_name;?></a></p>
+  <p>Powered by <a href="https://lindamcgraw.com" title="W3.CSS" target="_blank" class="w3-hover-text-green">LindaMcGraw.com</a></p>
 </footer>
 <div class="w3-hide-small" style="margin-bottom:32px"> </div>
-<script src="view/js/jquery-3.1.1.js"></script>
-<script src="view/js/simple.js"></script>
+
 </body>
 </html>
