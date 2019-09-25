@@ -1,0 +1,97 @@
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {height: 550px !important}
+.row{
+   height: auto !important;
+   align-items:center;
+}
+.navbar-nav>li>a{
+  color: #FFF;
+  background-color: inherit !important;
+}
+.dropdown-menu>li>, .dropdown-menu>li>a{
+  background-color: #5cb85c !important;
+  color: #FFF;
+}
+.dropdown-menu>li>a:hover{
+  color: #5cb85c !important;
+  background: #FFF !important;
+}
+.dropdown-menu>li>a{
+  color: #FFFFFF !important;
+}
+a.dropdown-toggle, a.dropdown-toggle:link,   a.dropdown-toggle:visited, a.dropdown-toggle:hover, a.dropdown-toggle:active{
+  color: #FFF;
+  background-color: #5cb85c !important;
+  float: right;
+}
+ul.dropdown-menu{
+  color: #FFF !important;
+  background-color: #5cb85c !important;
+}
+ul.dropdown-menu:hover{
+  color: #06CA31 !important;
+  background-color:  #5cb85c !important;
+}
+button.navbar-toggle, button.navbar-toggle.collapsed{
+  color: #FFFFFF !important;
+  background-color: #5cb85c !important;
+  border-color: #FFFFFF !important;
+}
+.navbar-expanded .navbar-toggle .icon-bar {
+    background-color: #FFFFFF;
+}
+
+.navbar{
+  margin-bottom: 0px !important;
+  padding: 0px !important;
+}
+.miniChart{
+ min-height: 20vh;
+ vertical-align: middle !important;
+}
+.midChart{
+  min-height: 250px;
+  vertical-align: middle !important;
+}
+.largeChart{
+  height: 550px;
+  vertical-align: middle !important;
+}
+
+#chartContainer{
+  min-height: 40vh;
+  min-width: 40vw;
+}
+#eID{
+  font-size: 16px;
+  margin-right: 50px !important;
+  margin-top: 10px !important;
+  border-radius: 5px;
+}
+#eID:hover, #eID:focus{
+  border: 1px solid #aaaaaa;
+}
+#metrics{
+  position: relative !important;
+}
+#charts{
+     position: relative !important;
+}
+/* On small screens, set height to 'auto' for the grid */
+@media screen and (max-width: 767px) {
+  .row.content {height: auto;}
+  .navbar{
+    margin-bottom: -10px !important;
+  }
+  .navbar-brand{
+     justify-content: center !important;
+  }
+  ul#eventSelector{
+    margin: auto !important;
+    padding-left: 5px !important;
+    text-align: center !important;
+  }
+  .dropdown-menu>li>a{
+    text-align: right !important;    
+  }
+}

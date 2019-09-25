@@ -52,3 +52,5 @@ CREATE TABLE `rsvps` (
   `last_update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY fk_events_id(`event_id`) REFERENCES  events(`event_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE VIEW `wedding_list` AS select `b`.`couple_id` AS `couple_id`,`a`.`event_id` AS `event_id`,concat(`b`.`groom_first_name`,' and ',`b`.`bride_first_name`,' ',`a`.`city`,', ',`a`.`state`) AS `couple` from (`events` `a` join `couples` `b`) where ((`a`.`couple_id` = `b`.`couple_id`) and (`a`.`type` = 'Wedding'));

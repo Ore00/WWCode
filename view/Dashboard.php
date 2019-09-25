@@ -1,159 +1,157 @@
 <?php
-/*
-* * Copyright (C) 2018 Women Who Code - Linda McGraw
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
-try{
+  error_reporting('E_NONE');
+  try{
+    if(!class_exists("DBQuery")){
 
+      require_once(base_path .'/vendor/DBQuery.php');
+    }
+  require_once("view/includes/getFile.php");
+  require_once("view/includes/web_settings.inc");
 
- }catch(Exception $e){
-     $err =  $e->getMessage();
- }
+  if(isset($_GET['eID'])){
+    $eventId = $_GET['eID'];
+  }else{
+    $eventId = 1;
+  }
 
-?>
+    $tbl = getReportDetails($eventId, "DataList", True, "dashboard");
+    $tblReport = getReportDetails($eventId, "DataListReport", True, "report");
+
+  }catch(Exception $e){
+      $error .= $e->getMessage();
+  }
+
+ ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <style>
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 550px}
-
-    /* Set gray background color and 100% height */
-    .sidenav {
-      background-color: #f1f1f1;
-      height: 100%;
-    }
-
-    /* On small screens, set height to 'auto' for the grid */
-    @media screen and (max-width: 767px) {
-      .row.content {height: auto;}
-    }
-  </style>
+<?php
+try{
+  require_once("view/includes/header.inc");
+  //include_once("includes/my_icons.inc");
+}catch(Exception $e){
+    $error .= $e->getMessage();
+}
+?>
+<link rel="stylesheet" href="view/css/dashboard.css">
 </head>
-<body>
+<body class="w3-platinum">
+<?php require_once("view/includes/navbar.inc") ?>
 
-<nav class="navbar navbar-inverse visible-xs">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Logo</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Dashboard</a></li>
-        <li><a href="#">Age</a></li>
-        <li><a href="#">Gender</a></li>
-        <li><a href="#">Geo</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<div class="container">
 
-<div class="container-fluid">
-  <div class="row content">
-    <div class="col-sm-3 sidenav hidden-xs">
-      <h2>Logo</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a href="#section1">Dashboard</a></li>
-        <li><a href="#section2">Age</a></li>
-        <li><a href="#section3">Gender</a></li>
-        <li><a href="#section3">Geo</a></li>
-      </ul><br>
+          <div id="metrics" class="row w3-center">
+        <div id="metric-one" class="col-sm-3">
+          <div class="well">
+            <h4>Invitations</h4>
+            <p id="countInvitations"></p>
+          </div>
+        </div>
+        <div id="metric-two" class="col-sm-3">
+          <div class="well">
+            <h4>Responses</h4>
+            <p id="countResponses"></p>
+          </div>
+        </div>
+        <div id="metric-three" class="col-sm-3">
+          <div class="well">
+            <h4>Reserved</h4>
+            <p id="countRSVPs"></p>
+          </div>
+        </div>
+        <div id="metric-four" class="col-sm-3">
+          <div class="well">
+            <h4>Available</h4>
+            <p id="countAvailable"></p>
+          </div>
+        </div>
     </div>
-    <br>
 
-    <div class="col-sm-9">
-      <div class="well">
-        <h4>Dashboard</h4>
-        <p>Some text..</p>
-      </div>
-      <div class="row">
-        <div class="col-sm-3">
+   <div id="charts" class="row">
+        <div class="col-sm-4 w3-center">
+          <div class="well">  <h6>Invitation Responses</h6>
+             <canvas id="responseChart" class="miniChart"> </canvas></div>
+          </div>
+        <div class="col-sm-4 w3-center">
           <div class="well">
-            <h4>Users</h4>
-            <p>1 Million</p>
+              <h6>Reserved by Type</h6>
+          <canvas id="rsvpChart" class="miniChart"></canvas>
+        </div>
+        </div>
+        <div class="col-sm-4 w3-center">
+          <div class="well">
+            <h6>Seat Avaliablility</h6>
+              <canvas id="availChart" class="miniChart"> </canvas>
           </div>
         </div>
-        <div class="col-sm-3">
-          <div class="well">
-            <h4>Pages</h4>
-            <p>100 Million</p>
+   </div>
+
+
+            <div id="dashTBL" class="col-sm-12 table-responsive well w3-padding-12">
+                <button id="buttonExport" class="button btn_export w3-round-large"><i class="fa fa-file-excel-o"></i> Export</button>
+                <?php
+                  if(isset($error)){   echo "<span class='alert warning'>Message: " . $error . "</span>";}
+                            if(isset($tbl)){
+                              echo $tbl;
+                    }
+                ?>
           </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="well">
-            <h4>Sessions</h4>
-            <p>10 Million</p>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="well">
-            <h4>Bounce</h4>
-            <p>30%</p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="well">
-            <p>Text</p>
-            <p>Text</p>
-            <p>Text</p>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="well">
-            <p>Text</p>
-            <p>Text</p>
-            <p>Text</p>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="well">
-            <p>Text</p>
-            <p>Text</p>
-            <p>Text</p>
-          </div>
+
+      <!-- </div> -->
+      <div id="table2" class="row">
+        <div class="col-sm-12">
+          <?php
+          if(isset($tblReport)){
+             echo $tblReport;
+          }
+          ?>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-8">
-          <div class="well">
-            <p>Text</p>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="well">
-            <p>Text</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
 </div>
 
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+
+<script>
+
+$(document).ready(function () {
+  $("#DataListReport").hide();
+  $("#buttonExport").click(function(){
+      $("#DataListReport").show();
+    $("#DataListReport").css('visibility','hidden');
+      $("#DataListReport").table2csv({
+        separator: ',',
+        newline: '\n',
+        quoteFields: true,
+        excludecolumns: '',
+        excludeRows: '',
+        filename: 'ReservationList.csv'
+      });
+      $("#DataListReport").hide();
+  });
+ $("#DataListReport").DataTable({
+     "bPaginate": false,
+     "bInfo": false,
+     "bFilter": false,
+     "bLengthChange": false,
+     "dom": 'Bfrtip'
+   });
+  $("#DataList").DataTable({
+  "bPaginate": true,
+  "bInfo": true,
+  "bFilter": true,
+  "bLengthChange": false,
+  "iDisplayLength": 5,
+  "dom": 'Bfrtip'
+
+  });
+
+});
+
+</script>
+<script src="view/js/dashboard.js"></script>
+<script src="view/js/simple.js"></script>
+<script src="view/js/table2csv.js"></script>
 </body>
 </html>

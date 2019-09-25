@@ -18,12 +18,15 @@ class Controller {
 
 	public function invoke()
 	{
-		if (!isset($_GET['couple']))
+		if (!isset($_GET['couple']) && !isset($_GET['type']) )
 		{
 			//  show a list of all available couples
 			$couples = $this->model->get_couple_list();
 			include 'view/CoupleList.php';
 		}
+    else if(isset($_GET['type']) && $_GET['type'] == "dashboard" && isset($_GET['couple'])){
+      include 'view/Dashboard.php';
+    }
 		else
 		{
 			// show the requested couple
