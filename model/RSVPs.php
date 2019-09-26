@@ -39,8 +39,12 @@ class RSVPs{
       $labelArray = array("event_id", "first_name", "last_name", "email", "events",
        "number_in_party", "status", "create_date", "last_update_date");
 
-      $valueArray = array("'" . $this->get_event_id() ."'", "'" .$this->get_first_name(). "'", "'" .$this->get_last_name() ."'",
-      "'". $this->get_email() ."'", "'". $this->get_events() ."'", "'" . $this->get_number_in_party() ."'",
+       $fname = $connection->escapeString($this->get_first_name());
+       $lname = $connection->escapeString($this->get_last_name());
+       $email = $connection->escapeString($this->get_email());
+
+      $valueArray = array("'" . $this->get_event_id() ."'", "'" .$fname. "'", "'" .$lname ."'",
+      "'". $email ."'", "'". $this->get_events() ."'", "'" . $this->get_number_in_party() ."'",
       "'". $this->get_status(). "'",
       $this->get_create_date(),
       $this->get_last_update_date());
@@ -108,7 +112,10 @@ class RSVPs{
     if( $rsvp_id != null){
       $connection = new DBQuery();
       if($connection->sql_error()  == false){
-          $sql = "UPDATE `rsvps` SET `event_id` = '". $this->event_id . "' ,  `first_name` = '" . $this->first_name  .  "' ,  `last_name` = '" . $this->last_name  .  "',  `email` = '" . $this->email  .  "',
+        $fname = $connection->escapeString($this->first_name);
+        $lname = $connection->escapeString($this->last_name);
+        $email = $connection->escapeString($this->email);
+          $sql = "UPDATE `rsvps` SET `event_id` = '". $this->event_id . "' ,  `first_name` = '" . $fname  .  "' ,  `last_name` = '" . $lname  .  "',  `email` = '" . $email  .  "',
            `events` = '". $this->events . "' ,  `number_in_party` = '". $this->number_in_party . "' ,  `status` = '". $this->status . "' ,  `last_update_date` = $this->last_update_date   WHERE `rsvp_id` = $rsvp_id";
 
             $connection->link->query($sql);
@@ -253,30 +260,27 @@ class RSVPs{
       {
         $connection = new DBQuery;
         if($connection->sql_error() == false){
-          $sql =  "select * from rsvps where events='Wedding' and event_id='" . $event_id . "' and email='" . $email. "'";
+          $sql =  "select * from rsvps where event_id='" . $event_id . "' and email='" . $email. "'";
           $result = $connection->query($sql);
+
           if($connection->sql_error() == false){
             $num = $connection->numRows($result);
+
             if($num > 0)
             {
-              $data = ( $num == 1) ? $connection->fetchAssoc($result) : $connection->fetchAll($result) ;
-
-            }else{
-
-              throw new Exception("RSVP not found for " .  $email);
+              $data = ($num == 1) ?  $connection->fetchAssoc($result) : $connection->fetchAll($result);
             }
 
           }else{
-
             throw new Exception($connection->sql_error());
           }
         }
         $connection->freeResult($result);
         $connection->close();
-      }else{
-
-        throw new Exception("Search incomplete: event id and email missing.");
       }
+      //else{
+      //     throw new Exception("Search incomplete: event id and email missing.");
+      // }
 
       return  (isset($data) && is_array($data)) ? $data : array();
 

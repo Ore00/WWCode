@@ -36,14 +36,19 @@ $guest = filter_input(INPUT_POST, "guest");
 $events = filter_input(INPUT_POST, "events");
 $rsvp_val = filter_input(INPUT_POST, "rsvp_val");
 $msg_rsvp = ($rsvp_val == "Going") ? "RSVP" : "feedback";
-$queryType ="Insert";
+$queryType ="";
 
 if($email !=  "" && $first_name  !=  ""  && $last_name  !=  "" && $guest !=  "" && $events  != "" && $rsvp_val  !=  "" && $client  !=  ""){
 
     $rsvp_lookup = new RSVPs();
     $lookup = $rsvp_lookup->get_by_email($client, $email);
-    $numCheck = (isset($lookup["rsvp_id"])) ? 1 : 0;
-    $queryType = ($numCheck == 1) ? "Update" : "Insert";
+    $numCheck = (is_array($lookup) && isset($lookup["rsvp_id"])) ? 1 : 0;
+
+       if($numCheck == 1){ $queryType = "Update"; }
+       elseif(is_array($lookup) && $numCheck == 0 && $queryType == ""){$queryType = "Insert";}
+       else{ $queryType = "error";}
+
+       if($queryType != "error" || $queryType == ""){
 
            $rsvp = new RSVPs();
            $rsvp->set_value("event_id", $client);
@@ -68,7 +73,7 @@ if($email !=  "" && $first_name  !=  ""  && $last_name  !=  "" && $guest !=  "" 
            if($insertID > 0){
              $msg = $first_name . ", we have received your " . $msg_rsvp . ".";
                $dataArray = array($email, $first_name, $last_name, $events, $guest, $rsvp_val, $insertID);
-           }elseif($affectedRows == "00000"){
+           }elseif($affectedRows > 0){
              $msg = $first_name . ", we have received your updates.";
                $dataArray = array($email, $first_name, $last_name, $events, $guest, $rsvp_val, $affectedRows);
            }elseif($affectedRows !=-1){
@@ -78,7 +83,9 @@ if($email !=  "" && $first_name  !=  ""  && $last_name  !=  "" && $guest !=  "" 
            else{
              $err .= "The system couldn't process your request at this time.";
            }
-
+         }else{
+            $err .= "The system couldn't process your request at this time.";
+         }
 
 }else{
     $err = "System couldn't process the input supplied, because one or more values are missing.";
