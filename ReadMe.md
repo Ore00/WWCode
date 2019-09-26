@@ -11,6 +11,8 @@ Homework Epic:
 As a nonattender, I want information about where I can send a gift to the couple, so they will know I wish them well although I can’t attend
 
 To setup project:
+  Create a database
+  Add the tables using file setup/wwc_wedding.sql
   rename file env_example.inc to env.inc
   rename file
   rename file vendor/DBSettings_example.php to vendor/DBSettings.php
