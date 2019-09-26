@@ -1,14 +1,8 @@
 $(document).ready(function() {
 
+  var replyDate = document.getElementById("reply_date").value;
+  var endDate = new Date(replyDate);
 
-//close RSVP after end date
-if(document.getElementById("clientID") != null){
-if(document.getElementById("clientID").value == "Texas"){
-  var endDate = new Date(2020, 04, 15);
-  }else{
-    var endDate = new Date(20209, 04, 01);
-  }
-}
 var currentDate = new Date();
 
 if(currentDate >= endDate ){
@@ -55,16 +49,17 @@ function getArrayElement(arr){
 }
 
 function getAjaxProcess(data, url, callback){
+
     var step;
     var result = "";
     $.ajax({
     url: url,
     type: 'POST',
     async: false,
-    timeout: 180000,
+    //timeout: 180000,
     data: data
     }).done(function(data){
-
+    // alert(JSON.stringify(data));
     var JSONstr = JSON.parse(data);
          //check whether process ran successfully
 
@@ -98,7 +93,7 @@ function getAjaxResults(data, url, callback){
     timeout: 180000,
     data: data
     }).done(function(data){
-      
+
     var JSONstr = JSON.parse(data);
             step =  JSONstr;
             callback(step);
@@ -127,9 +122,10 @@ function isProcessingBTN(theButton, status=true){
      getAjaxResults(data, "view/includes/getCounts.php", function(d){  step = d; });
      return step;
  }
- function getProcessForm(email, name, events, guest, rsvp_val, client){
- var data = {email: email, name: name, events: events, guest: guest, rsvp_val: rsvp_val, client: client} ;
+ function getProcessForm(email, first_name, last_name, events, guest, rsvp_val, client){
+ var data = {email: email, first_name: first_name, last_name: last_name, events: events, guest: guest, rsvp_val: rsvp_val, client: client} ;
  var step;
+
    getAjaxProcess(data, "view/includes/processForm.php", function(d){  step = d; });
    return step;
  }
@@ -137,11 +133,12 @@ function processForm(rsvp_val){
 
   if(validateForm("rsvp_form")){
      var email = document.getElementById("email").value;
-     var name = document.getElementById("name").value;
+     var first_name = document.getElementById("first_name").value;
+     var last_name = document.getElementById("last_name").value;
      var events = document.getElementById("events").value;
      var guest = document.getElementById("guest").value;
      var client = document.getElementById("clientID").value;
-     var result = getProcessForm(email, name, events, guest, rsvp_val, client);
+     var result = getProcessForm(email, first_name, last_name, events, guest, rsvp_val, client);
 
 }else{
     createStatusBox("statusBox", "alert alert-danger", "formStatus");

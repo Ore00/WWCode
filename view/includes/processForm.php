@@ -17,64 +17,63 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-error_reporting('E_NONE');
-Try{
+//error_reporting('E_NONE');
+try{
+  include_once("../../env.inc");
+  if(!class_exists("RSVPs")){
+    require_once("../../model/RSVPs.php");
+  }
 $err = "";
 $msg = "";
 $connInfo = "";
 $insertID = "";
 $affectedRows = "";
-$client = "MonaLisa Cash Wedding "  . filter_input(INPUT_POST, "client") ;
+$client = filter_input(INPUT_POST, "client") ;
 $email = filter_input(INPUT_POST, "email");
-$name = filter_input(INPUT_POST, "name");
+$first_name = filter_input(INPUT_POST, "first_name");
+$last_name = filter_input(INPUT_POST, "last_name");
 $guest = filter_input(INPUT_POST, "guest");
 $events = filter_input(INPUT_POST, "events");
 $rsvp_val = filter_input(INPUT_POST, "rsvp_val");
-$msg_rsvp = '';
-if($email !=  "" && $name  !=  "" && $guest !=  "" && $events  != "" && $rsvp_val  !=  ""){
-        require_once("DBQuery.php");
-        $con = new DBQuery();
-        if($con->sql_error()  == false){
-           //see if email exitS
+$msg_rsvp = ($rsvp_val == "Going") ? "RSVP" : "feedback";
+$queryType ="Insert";
 
-           $sqlCheck = "select * from wedding_rsvps where client_name='" . $client . "' and email='" . $email. "'";
-           $result = $con->query($sqlCheck);
-           //if no error get the number of records
-           if($con->sql_error()  == false){$numCheck = $con->numRows($result);}
-           $queryType = ($numCheck == 1) ? "Update" : "Insert";
+if($email !=  "" && $first_name  !=  ""  && $last_name  !=  "" && $guest !=  "" && $events  != "" && $rsvp_val  !=  "" && $client  !=  ""){
+
+    $rsvp_lookup = new RSVPs();
+    $lookup = $rsvp_lookup->get_by_email($client, $email);
+    $numCheck = (isset($lookup["rsvp_id"])) ? 1 : 0;
+    $queryType = ($numCheck == 1) ? "Update" : "Insert";
+
+           $rsvp = new RSVPs();
+           $rsvp->set_value("event_id", $client);
+           $rsvp->set_value("first_name", $first_name);
+           $rsvp->set_value("last_name", $last_name);
+           $rsvp->set_value("email", $email);
+           $rsvp->set_value("events", $events);
+           $rsvp->set_value("status", $rsvp_val);
+           $rsvp->set_value("number_in_party", $guest);
+           $rsvp->set_value("create_date", "CURRENT_TIMESTAMP");
+           $rsvp->set_value("last_update_date", "CURRENT_TIMESTAMP");
 
            if($queryType == "Insert"){
            //insert row
-              $sql = "INSERT INTO `wedding_rsvps` (`client_name`, `full_name`, `email`, `Guests`, `Events`, `RSVP`,`Create_date`)
-              VALUES ( '" . $client .  "', '" . $name  .  "', '" . $email .  "', '" . $guest  .  "', '" .$events  .  "',  '" . $rsvp_val  .  "', CURRENT_TIMESTAMP)";
+              $insertID  = $rsvp->create();
+
            }else{
              //update row
-              $sql = "UPDATE `wedding_rsvps` SET `full_name` = '" . $name  .  "',  `Guests` = '" . $guest  .  "' ,  `Events` = '" . $events  .  "',  `RSVP` = '" . $rsvp_val  .  "'
-               WHERE `client_name` ='" . $client . "' and email='" . $email. "'";
+            $affectedRows = $rsvp->update($lookup['rsvp_id']);
            }
-            $con->link->query($sql);
-            //check to see if the sql error
-            if($con->sql_error() == false){
-              $msg_rsvp = ($rsvp_val == "Going") ? "RSVP" : "feedback";
-               if($queryType == "Insert"){
-                   $insertID = $con->lastInsertedID();
-               }else{
-                   $affectedRows = $con->affectedRows();
-               }
-            }else{$err = $con->sql_error();}
 
-       }else{
-            $err = $con->sql_error();
-       }
            if($insertID > 0){
-             $msg = $name . ", we have received your " . $msg_rsvp . ".";
-               $dataArray = array($email, $name, $events, $guest, $rsvp_val, $insertID);
-           }elseif($con->state() == "00000"){
-             $msg = $name . ", we have received your updates.";
-               $dataArray = array($email, $name, $events, $guest, $rsvp_val, $affectedRows);
+             $msg = $first_name . ", we have received your " . $msg_rsvp . ".";
+               $dataArray = array($email, $first_name, $last_name, $events, $guest, $rsvp_val, $insertID);
+           }elseif($affectedRows == "00000"){
+             $msg = $first_name . ", we have received your updates.";
+               $dataArray = array($email, $first_name, $last_name, $events, $guest, $rsvp_val, $affectedRows);
            }elseif($affectedRows !=-1){
-             $msg = $name . ", we have received your submission.";
-               $dataArray = array($email, $name, $events, $guest, $rsvp_val, $affectedRows);
+             $msg = $first_name . ", we have received your submission.";
+               $dataArray = array($email,  $first_name, $last_name, $events, $guest, $rsvp_val, $affectedRows);
            }
            else{
              $err .= "The system couldn't process your request at this time.";

@@ -105,8 +105,7 @@ class RSVPs{
     self::set_value("last_update_date","CURRENT_TIMESTAMP");
     self::validate_values();
 
-
-    if( $rsvp_id != null || trim($rspv_id)!= ""){
+    if( $rsvp_id != null){
       $connection = new DBQuery();
       if($connection->sql_error()  == false){
           $sql = "UPDATE `rsvps` SET `event_id` = '". $this->event_id . "' ,  `first_name` = '" . $this->first_name  .  "' ,  `last_name` = '" . $this->last_name  .  "',  `email` = '" . $this->email  .  "',
@@ -245,6 +244,41 @@ class RSVPs{
     if(self::get_create_date() == null){throw new Exception("Create date is required.");}
     if(self::get_last_update_date() == null){throw new Exception("Last update date is required.");}
 
+
+  }
+  function get_by_email($event_id=null, $email=null){
+
+      //get rsvp details from the database
+      if($event_id != null &&  $email != null)
+      {
+        $connection = new DBQuery;
+        if($connection->sql_error() == false){
+          $sql =  "select * from rsvps where events='Wedding' and event_id='" . $event_id . "' and email='" . $email. "'";
+          $result = $connection->query($sql);
+          if($connection->sql_error() == false){
+            $num = $connection->numRows($result);
+            if($num > 0)
+            {
+              $data = ( $num == 1) ? $connection->fetchAssoc($result) : $connection->fetchAll($result) ;
+
+            }else{
+
+              throw new Exception("RSVP not found for " .  $email);
+            }
+
+          }else{
+
+            throw new Exception($connection->sql_error());
+          }
+        }
+        $connection->freeResult($result);
+        $connection->close();
+      }else{
+
+        throw new Exception("Search incomplete: event id and email missing.");
+      }
+
+      return  (isset($data) && is_array($data)) ? $data : array();
 
   }
 }

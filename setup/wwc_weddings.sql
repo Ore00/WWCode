@@ -54,3 +54,4 @@ CREATE TABLE `rsvps` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE VIEW `wedding_list` AS select `b`.`couple_id` AS `couple_id`,`a`.`event_id` AS `event_id`,concat(`b`.`groom_first_name`,' and ',`b`.`bride_first_name`,' ',`a`.`city`,', ',`a`.`state`) AS `couple` from (`events` `a` join `couples` `b`) where ((`a`.`couple_id` = `b`.`couple_id`) and (`a`.`type` = 'Wedding'));
+ALTER TABLE `rsvps` ADD UNIQUE( `event_id`, `email`);

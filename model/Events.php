@@ -328,14 +328,17 @@ class Events{
 
         $data["type"] = $row["type"];
         if($row["type"] == "Wedding"){
+          $data["wedding_event_id"] = $row["event_id"];
           $data["start_datetime"] = strtotime($row["start_date_time"]);
           $data["reply_datetime"] = strtotime($row["reply_by_date"]);
           $data["wedding_time"] = date("g:i A",   $data["start_datetime"]);
           $data["wedding_date"] = date("d.m.Y",   $data["start_datetime"]);
           $data["reply_date"] = date("F, Y",   $data["reply_datetime"]);
+          $data["reply_date_disable"] = date("Y, m, d",   $data["reply_datetime"]);
           $data["wedding_venue"] = $row["name"];
           $data["wedding_address"] = $row["address"] . " " . $row["city"] . ", " . $row["state"] . " " . $row["zip"];
         }elseif($row["type"] == "Reception"){
+          $data["reception_event_id"] = $row["event_id"];
            $data["reception_start_datetime"] = strtotime($row["start_date_time"]);
           $data["reception_time"] = date("g:i A",   $data["reception_start_datetime"]);
           $data["reception_date"] = date("d.m.Y",   $data["reception_start_datetime"]);

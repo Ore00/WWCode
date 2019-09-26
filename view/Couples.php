@@ -16,7 +16,7 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-error_reporting('E_NONE');
+//error_reporting('E_NONE');
 try{
   include_once("env.inc");
   include_once("model/Events.php");
@@ -52,8 +52,8 @@ try{
 <link rel="stylesheet" href="view/css/bootstrap.css">
 <link rel="stylesheet" href="view/css/bootstrap.min.css">
 <link rel="stylesheet" href="view/css/simple.css">
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="view/js/jquery.min.js"></script>
+<script src="view/js/bootstrap.min.js"></script>
 <style>
 body,h1,h2{font-family: "Raleway", sans-serif}
 body, html {height: 100%}
@@ -67,7 +67,6 @@ p {line-height: 2}
 .bgimg2 {background-image: url("view/images/flowers.jpg")}
 </style>
 <body>
-
 <!-- Header / Home-->
 <header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
   <div class="w3-display-middle w3-text-white w3-center">
@@ -153,21 +152,35 @@ p {line-height: 2}
  <span id="closebtn" onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
       <form  id="rsvp_form" class=" w3-padding-64">
         <div class="w3-row-padding">
-          <div id="formStatus" class=w3-full></div>
+          <div id="formStatus" class="w3-col"></div>
           <div class="w3-half">
-            <input class="w3-input w3-border form-control" id="name"  name="name" type="text" placeholder="Full Name" onclick="this.className = 'form-control'">
+            <input class="w3-input w3-border form-control" id="first_name"  name="first_name" type="text" placeholder="First Name" onclick="this.className = 'form-control'">
           </div>
           <div class="w3-half">
+            <input class="w3-input w3-border form-control" id="last_name" name="last_name" type="text" placeholder="Last Name"  onclick="this.className = 'form-control'">
+          </div>
+        </div>
+
+        <br>
+        <div class="w3-row-padding">
+          <div class="w3-col">
             <input class="w3-input w3-border form-control" id="email" name="email" type="email" placeholder="Email"  onclick="this.className = 'form-control'">
+            <input class="w3-input w3-border form-control" id="clientID" name="clientID" type="hidden" value="<?php echo $couple_event["wedding_event_id"]; ?>">
+            <input class="w3-input w3-border form-control" id="reply_date" name="reply_date" type="hidden" value="<?php echo $couple_event["reply_date_disable"]; ?>">
+
           </div>
         </div>
         <br>
         <div class="w3-row-padding">
+
           <div class="w3-half">
             <select class="w3-select w3-border form-control" id="guest" name="guest" onclick="this.className = 'form-control'">
               <option value="" disabled selected>Number in party:</option>
               <option value="01">01</option>
               <option value="02">02</option>
+              <option value="03">03</option>
+              <option value="04">04</option>
+              <option value="05">05</option>
             </select>
           </div>
           <div class="w3-half">
