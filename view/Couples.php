@@ -72,7 +72,7 @@ p {line-height: 2}
   <div class="w3-display-middle w3-text-white w3-center">
     <h1 class="w3-jumbo"><?php echo $name; ?></h1>
     <h2>Are getting married</h2>
-    <h2><b><?php echo $couple_event["wedding_date"]; ?></b></h2>
+    <h2><b><?php echo @$couple_event["wedding_date"]; ?></b></h2>
   </div>
 </header>
 
@@ -112,22 +112,29 @@ p {line-height: 2}
     <div class="w3-row">
       <div class="w3-half">
         <h2>When</h2>
-        <p>Wedding Ceremony - <?php echo $couple_event["wedding_time"]; ?></p>
+         <?php
+          if(isset($couple_event)){
+            echo"<p>Wedding Ceremony - ". @$couple_event["wedding_time"] . "  </p>";
+          }
+             ?>
+
+
         <?php
-         if( in_array("Reception", $couple_event)){
-           echo"<p>Reception & Dinner - " . $couple_event["reception_time"] . "</p>";
+
+         if(isset($couple_event) && in_array("Reception", $couple_event)){
+           echo"<p>Reception & Dinner - " . @$couple_event["reception_time"] . "</p>";
          }
         ?>
       </div>
       <div class="w3-half">
         <h2>Where</h2>
-        <p><?php echo $couple_event["wedding_venue"] . "<br>"; ?>
-          <?php echo $couple_event["wedding_address"]; ?></p>
+        <p><?php echo @$couple_event["wedding_venue"] . "<br>"; ?>
+          <?php echo @$couple_event["wedding_address"]; ?></p>
 
         <?php
-         if( in_array("Reception", $couple_event)){
-           echo"<p>" . $couple_event["reception_venue"] . "<br>";
-           echo $couple_event["reception_address"] . "</p>";
+         if(isset($couple_event) && in_array("Reception", $couple_event)){
+           echo"<p>" . @$couple_event["reception_venue"] . "<br>";
+           echo @$couple_event["reception_address"] . "</p>";
          }
         ?>
       </div>
@@ -138,7 +145,7 @@ p {line-height: 2}
 <!-- RSVP section -->
 <div class="w3-container w3-padding-64 w3-pale-red w3-center w3-wide" id="rsvp">
   <h1>HOPE YOU CAN MAKE IT!</h1>
-  <p class="w3-large">Kindly Respond By <?php echo $couple_event["reply_date"] . "<br>"; ?></p>
+  <p class="w3-large">Kindly Respond By <?php echo @$couple_event["reply_date"] . "<br>"; ?></p>
   <p class="w3-xlarge">
     <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-round w3-red w3-opacity w3-hover-opacity-off" style="padding:8px 60px">RSVP</button>
   </p>

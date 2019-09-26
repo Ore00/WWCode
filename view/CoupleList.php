@@ -16,96 +16,119 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+error_reporting('E_NONE');
+try{
+
+
+
+}catch(Exception $e){
+  $error .= $e->getMessage();
+}
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="view/css/bootstrap.min.css">
-  <script src="view/js/jquery.min.js"></script>
-  <script src="view/js/bootstrap.min.js"></script>
-  <style>
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 550px}
-
-    /* Set gray background color and 100% height */
-    .sidenav {
-      background-color: #f1f1f1;
-      height: 100%;
-    }
-
-    /* On small screens, set height to 'auto' for the grid */
-    @media screen and (max-width: 767px) {
-      .row.content {height: auto;}
-    }
-  </style>
+  <?php
+  try{
+    require_once("view/includes/header.inc");
+    //include_once("includes/my_icons.inc");
+  }catch(Exception $e){
+    $error .= $e->getMessage();
+  }
+  ?>
+  <link rel="stylesheet" href="view/css/dashboard.css">
 </head>
+<body class="w3-platinum">
+  <?php require_once("view/includes/navbar.inc") ?>
 
-<body>
+  <div class="container">
 
-	<nav class="navbar navbar-inverse visible-xs">
-	  <div class="container-fluid">
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a class="navbar-brand" href="#">Logo</a>
-	    </div>
-	    <div class="collapse navbar-collapse" id="myNavbar">
-	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="#">Dashboard</a></li>
-	        <li><a href="#">Age</a></li>
-	        <li><a href="#">Gender</a></li>
-	        <li><a href="#">Geo</a></li>
-	      </ul>
-	    </div>
-	  </div>
-	</nav>
-	<div class="container-fluid">
-	  <div class="row content">
+    <!-- <div id="metrics" class="row w3-center">
+      <div id="metric-one" class="col-sm-3">
+        <div class="well">
+          <h4>Invitations</h4>
+          <p id="countInvitations"></p>
+        </div>
+      </div>
+      <div id="metric-two" class="col-sm-3">
+        <div class="well">
+          <h4>Responses</h4>
+          <p id="countResponses"></p>
+        </div>
+      </div>
+      <div id="metric-three" class="col-sm-3">
+        <div class="well">
+          <h4>Reserved</h4>
+          <p id="countRSVPs"></p>
+        </div>
+      </div>
+      <div id="metric-four" class="col-sm-3">
+        <div class="well">
+          <h4>Available</h4>
+          <p id="countAvailable"></p>
+        </div>
+      </div>
+    </div>
 
-			<br>
-
-			<div class="col-sm-9">
-				<div class="well">
-					<div class="col-sm-3 sidenav hidden-xs">
-			      <h2>Logo</h2>
-			      <ul class="nav nav-pills nav-stacked">
-			        <li class="active"><a href="#section1">Dashboard</a></li>
-			        <li><a href="#section2">Age</a></li>
-			        <li><a href="#section3">Gender</a></li>
-			        <li><a href="#section3">Geo</a></li>
-			      </ul><br>
-			    </div>
-<?php
-
-echo "<h2>Listing of Couples</h2>";
-
-if(isset($error) && $error != ""){
-	echo"<div> $error </div>";
-}
-
-	 foreach($couples as $couple){
-
-		$groom_first_name =  $couple["groom_first_name"];
-		$bride_first_name =  $couple["bride_first_name"];
-		$couple_id = $couple["couple_id"];
+    <div id="charts" class="row">
+      <div class="col-sm-4 w3-center">
+        <div class="well">  <h6>Invitation Responses</h6>
+          <canvas id="responseChart" class="miniChart"> </canvas></div>
+        </div>
+        <div class="col-sm-4 w3-center">
+          <div class="well">
+            <h6>Reserved by Type</h6>
+            <canvas id="rsvpChart" class="miniChart"></canvas>
+          </div>
+        </div>
+        <div class="col-sm-4 w3-center">
+          <div class="well">
+            <h6>Seat Avaliablility</h6>
+            <canvas id="availChart" class="miniChart"> </canvas>
+          </div>
+        </div>
+      </div> -->
 
 
-	 	echo "<a href='?couple=" . $couple_id ."'>".  $groom_first_name . " " . $bride_first_name  . '</a><br/>';
+    <div class="col-sm-12 well">
 
-	 }
+        <?php
+        if(isset($error)){   echo "<span class='alert warning'>Message: " . $error . "</span>";}
+        if(isset($tbl)){
+          echo $tbl;
+        }
+        ?>
 
 
-?>
-</div>
-</div>
-</div>
-</div>
+      <!-- </div> -->
+      <div id="table2" class="row">
+        <div class="col-sm-12">
+          <?php
+          echo "<h2>Our Couples</h2>";
+
+          if(isset($error) && $error != ""){
+           echo"<div> $error </div>";
+          }
+
+            foreach($couples as $couple){
+
+             $groom_first_name =  $couple["groom_first_name"];
+             $bride_first_name =  $couple["bride_first_name"];
+             $couple_id = $couple["couple_id"];
+
+
+             echo "<h3><a href='?couple=" . $couple_id ."'>".  $groom_first_name . " " . $bride_first_name  . '</a><h3/>';
+
+            }
+          ?>
+        </div>
+      </div>
+
+    </div>
+
+  <script src="view/js/dashboard.js"></script>
+  <script src="view/js/simple.js"></script>
+
 </body>
 </html>

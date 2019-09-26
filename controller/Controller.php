@@ -4,6 +4,7 @@ try{
 
 include_once("env.inc");
 include_once("model/Model.php");
+include_once("model/Events.php");
 
 class Controller {
 	public $model;
@@ -20,16 +21,19 @@ class Controller {
 		if (!isset($_GET['couple']) && !isset($_GET['type']) )
 		{
 			//  show a list of all available couples
+			$events = new Events();
+			$mrows = $events->get_all_weddings();
 			$couples = $this->model->get_couple_list();
 			include 'view/CoupleList.php';
 		}
     else if(isset($_GET['type']) && $_GET['type'] == "dashboard" && isset($_GET['couple'])){
-       //show dashboard 
+       //show dashboard
       include 'view/Dashboard.php';
     }
 		else
 		{
 			// show the requested couple
+
 			$couple = $this->model->get_couple($_GET['couple']);
 			include 'view/Couples.php';
 		}
