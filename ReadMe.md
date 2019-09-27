@@ -2,9 +2,12 @@ This project was created for the Women Who Code Session "Building a dynamic web 
 Project created by Linda McGraw https://LindaMcGraw.com
 
 Project Epic:
-As a couple, we want to share key details about our upcoming wedding events so family and friends may RSVP.
-As a couple, we want to easily obtain the total RSVPs for each activity without having to compile a list.
-As a couple, we want to easily export a list of RSVPs, so we can know who to expect for our wedding events.
+As a couple, we want to share key details about our upcoming wedding events so family and friends may RSVP.
+
+As a couple, we want to easily obtain the total RSVPs for each activity without having to compile a list.
+
+As a couple, we want to easily export a list of RSVPs, so we can know who to expect for our wedding events.
+
 As an attendee, I want confirmation of my RSVP, so that I know the couple knows my intentions.
 
 Homework Epic:
