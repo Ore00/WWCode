@@ -24,26 +24,14 @@
             ?>
           </ul>
         </li>
-
       </ul>
-      <ul class="nav navbar-nav navbar-right" id="eventSelector" >
-
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Couples <i class="fa fa-caret-down"></i></a>
-          <ul class="dropdown-menu">
-            <?php
-            if(isset($mrows) && count($mrows) > 0){
-              foreach($mrows as $row){
-                echo"<li><a href='?couple=". $row['couple_id']. "&eID=" . $row['event_id'] ."'>" . $row['couple']."</a></li>";
-              }
-           }
-            ?>
-          </ul>
-        </li>
-
+      <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item">
+          <a class="nav " href="?type=home"> Couples </a>
+          </li>
       </ul>
-
     </div>
   </div>
+
 </nav>
 <br>

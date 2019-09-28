@@ -223,6 +223,7 @@ p {line-height: 2}
 </footer>
 <div class="w3-hide-small" style="margin-bottom:32px"> </div>
 <script src="view/js/jquery-3.1.1.js"></script>
+<script src="view/js/couples.js"></script>
 <script src="view/js/simple.js"></script>
 </body>
 </html>

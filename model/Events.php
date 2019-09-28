@@ -42,10 +42,17 @@ class Events{
       $labelArray = array("couple_id", "master_event_id", "name", "type", "start_date_time",
       "end_date_time", "reply_by_date", "address", "city", "state", "zip", "create_date", "last_update_date");
 
-      $valueArray = array("'" . $this->get_couple_id() ."'", "'" .$this->get_master_event_id(). "'", "'" .$this->get_name() ."'",
-      "'". $this->get_type() ."'", "'". $this->get_start_date_time() ."'", "'" . $this->get_end_date_time() ."'",
-      "'". $this->get_reply_by_date(). "'", "'". $this->get_address() ."'", "'". $this->get_city() ."'", "'". $this->get_state() ."'",
-      "'". $this->get_zip() ."'",
+      $name = $connection->escapeString($this->get_name());
+      $type = $connection->escapeString($this->get_type());
+      $address = $connection->escapeString($this->get_address());
+      $city = $connection->escapeString($this->get_city());
+      $state = $connection->escapeString($this->get_state());
+      $zip = $connection->escapeString($this->get_zip());
+
+      $valueArray = array("'" . $this->get_couple_id() ."'", "'" .$this->get_master_event_id(). "'", "'" . $name ."'",
+      "'". $type ."'", "'". $this->get_start_date_time() ."'", "'" . $this->get_end_date_time() ."'",
+      "'". $this->get_reply_by_date(). "'", "'". $address ."'", "'". $city ."'", "'". $state ."'",
+      "'". $zip ."'",
       $this->get_create_date(),
       $this->get_last_update_date());
       $col = implode(",", $labelArray) ;

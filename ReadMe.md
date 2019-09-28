@@ -20,3 +20,8 @@ To setup project:
   rename file
   rename file vendor/DBSettings_example.php to vendor/DBSettings.php
     then add your database settings
+
+
+Project Objective: This wedding event management sample application
+Stack: using html, php, mysql, JavaScript, css, bootstrap, and jQuery
+Design Pattern: MVC

@@ -47,12 +47,31 @@ class Couples{
        "bride_email", "primary_contact", "couple_address", "couple_city", "couple_state", "couple_zip",
         "couple_story", "create_date", "last_update_date");
 
-      $valueArray = array("'" . $this->get_groom_first_name() ."'", "'" .$this->get_groom_last_name(). "'", "'" .$this->get_groom_email() ."'",
-      "'". $this->get_bride_first_name() ."'", "'". $this->get_bride_last_name() ."'", "'" . $this->get_bride_email() ."'",
-      "'". $this->get_primary_contact(). "'", "'". $this->get_couple_address() ."'", "'". $this->get_couple_city() ."'", "'". $this->get_couple_state() ."'",
-      "'". $this->get_couple_zip() ."'", "'". $this->get_couple_story() ."'",
+        //groom info
+        $gfname = $connection->escapeString($this->get_groom_first_name());
+        $glname = $connection->escapeString($this->get_groom_last_name());
+        $gemail = $connection->escapeString($this->get_groom_email());
+
+        //bride info
+        $bfname = $connection->escapeString($this->get_bride_first_name());
+        $blname = $connection->escapeString($this->get_bride_last_name());
+        $bemail = $connection->escapeString($this->get_bride_email());
+
+        //couple info
+        $contact = $connection->escapeString($this->get_primary_contact());
+        $address = $connection->escapeString($this->get_couple_address());
+        $city = $connection->escapeString($this->get_couple_city());
+        $state = $connection->escapeString($this->get_couple_state());
+        $zip = $connection->escapeString($this->get_couple_zip());
+        $story = $connection->escapeString($this->get_couple_story());
+
+
+      $valueArray = array("'" . $gfname ."'", "'" . $glname . "'", "'" . $gemail ."'", "'". $bfname ."'", "'". $blname ."'", "'" . $bemail ."'",
+      "'". $contact . "'", "'". $address ."'", "'". $city ."'", "'". $state ."'",
+      "'". $zip ."'", "'". $story ."'",
       $this->get_create_date(),
       $this->get_last_update_date());
+
       $col = implode(",", $labelArray) ;
       $val = implode(", ", $valueArray);
       $sql = "INSERT INTO couples ( $col ) values ( $val )";

@@ -44,53 +44,6 @@ try{
 
   <div class="container">
 
-    <!-- <div id="metrics" class="row w3-center">
-      <div id="metric-one" class="col-sm-3">
-        <div class="well">
-          <h4>Invitations</h4>
-          <p id="countInvitations"></p>
-        </div>
-      </div>
-      <div id="metric-two" class="col-sm-3">
-        <div class="well">
-          <h4>Responses</h4>
-          <p id="countResponses"></p>
-        </div>
-      </div>
-      <div id="metric-three" class="col-sm-3">
-        <div class="well">
-          <h4>Reserved</h4>
-          <p id="countRSVPs"></p>
-        </div>
-      </div>
-      <div id="metric-four" class="col-sm-3">
-        <div class="well">
-          <h4>Available</h4>
-          <p id="countAvailable"></p>
-        </div>
-      </div>
-    </div>
-
-    <div id="charts" class="row">
-      <div class="col-sm-4 w3-center">
-        <div class="well">  <h6>Invitation Responses</h6>
-          <canvas id="responseChart" class="miniChart"> </canvas></div>
-        </div>
-        <div class="col-sm-4 w3-center">
-          <div class="well">
-            <h6>Reserved by Type</h6>
-            <canvas id="rsvpChart" class="miniChart"></canvas>
-          </div>
-        </div>
-        <div class="col-sm-4 w3-center">
-          <div class="well">
-            <h6>Seat Avaliablility</h6>
-            <canvas id="availChart" class="miniChart"> </canvas>
-          </div>
-        </div>
-      </div> -->
-
-
     <div class="col-sm-12 well">
 
         <?php
@@ -118,7 +71,7 @@ try{
              $couple_id = $couple["couple_id"];
 
 
-             echo "<h3><a href='?couple=" . $couple_id ."'>".  $groom_first_name . " " . $bride_first_name  . '</a><h3/>';
+             echo "<h3><a href='?type=couple&couple=" . $couple_id ."'>".  $groom_first_name . " " . $bride_first_name  . '</a><h3/>';
 
             }
           ?>
