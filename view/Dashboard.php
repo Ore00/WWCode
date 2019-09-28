@@ -29,10 +29,10 @@ try{
   require_once("view/includes/getFile.php");
   require_once("view/includes/web_settings.inc");
 
-  if(isset($_GET['eID'])){
+   if(isset($_GET['eID'])){
     $eventId = $_GET['eID'];
   }else{
-    $eventId = 1;
+     $eventId = 1;
   }
     $events = new Events();
     $mrows = $events->get_all_weddings();

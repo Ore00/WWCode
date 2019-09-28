@@ -1,3 +1,11 @@
+<?php
+
+  if(!isset($eventId)){
+    $eventId = 0;
+  }
+
+
+?>
 <nav class="navbar navbar-expanded progress-bar-success">
   <div class="container-fluid">
     <div class="navbar-header">

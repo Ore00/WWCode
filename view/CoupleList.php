@@ -39,11 +39,11 @@ try{
   ?>
   <link rel="stylesheet" href="view/css/dashboard.css">
 </head>
-<body class="w3-platinum">
+<body class="w3-white">
   <?php require_once("view/includes/navbar.inc") ?>
 
   <div class="container">
-
+      <div class='page-header'><h1>Our Couples</h1></div>
     <div class="col-sm-12 well">
 
         <?php
@@ -58,7 +58,7 @@ try{
       <div id="table2" class="row">
         <div class="col-sm-12">
           <?php
-          echo "<h2>Our Couples</h2>";
+
 
           if(isset($error) && $error != ""){
            echo"<div> $error </div>";
@@ -71,7 +71,7 @@ try{
              $couple_id = $couple["couple_id"];
 
 
-             echo "<h3><a href='?type=couple&couple=" . $couple_id ."'>".  $groom_first_name . " " . $bride_first_name  . '</a><h3/>';
+             echo "<h3><a href='?type=couple&couple=" . $couple_id ."'>".  $groom_first_name . " & " . $bride_first_name  . '</a><h3/>';
 
             }
           ?>
@@ -80,7 +80,7 @@ try{
 
     </div>
 
-  <script src="view/js/dashboard.js"></script>
+  <!-- <script src="view/js/dashboard.js"></script> -->
   <script src="view/js/simple.js"></script>
 
 </body>
