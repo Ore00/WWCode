@@ -173,7 +173,7 @@ $(document).ready(function () {
 
 </script>
 <script src="view/js/dashboard.js"></script>
-<script src="view/js/simple.js"></script>
+<!-- <script src="view/js/simple.js"></script> -->
 <script src="view/js/table2csv.js"></script>
 </body>
 </html>

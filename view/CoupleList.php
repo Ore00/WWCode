@@ -81,7 +81,7 @@ try{
     </div>
 
   <!-- <script src="view/js/dashboard.js"></script> -->
-  <script src="view/js/simple.js"></script>
+  <!-- <script src="view/js/simple.js"></script> -->
 
 </body>
 </html>

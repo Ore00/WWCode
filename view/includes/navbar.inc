@@ -1,7 +1,7 @@
 <?php
 
   if(!isset($eventId)){
-    $eventId = 0;
+    $eventId = 1;
   }
 
 
