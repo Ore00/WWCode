@@ -14,7 +14,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<?php echo"?type=dashboard&couple=" . $_GET['couple'] . "&eID=".$eventId; ?>"><i class="fa fa-heart iconLogo"></i> Our Wedding </a>
+
+       <!-- echo"?type=dashboard&couple=" . $_GET['couple'] . "&eID=".$eventId; -->
+
+      <a class="navbar-brand" href="home"><i class="fa fa-heart iconLogo"></i> Our Wedding </a>
       <input type="hidden" id="eID" value="<?php echo $eventId; ?>">
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
@@ -35,7 +38,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav " href="?type=home"> Couples </a>
+          <a class="nav" href='home'> Couples </a>
           </li>
       </ul>
     </div>
