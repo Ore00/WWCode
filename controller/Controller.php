@@ -41,17 +41,23 @@ class Controller {
 			$events = new Events();
 			$mrows = $events->get_all_weddings();
 			$couples = $this->model->get_couple_list();
-			include 'view/CoupleList.php';
+			include 'view/CouplesList.php'; // will create a home page
 
 		}
-		else
+		elseif(strpos($this->path, "CouplesList") || strpos($this->query, "CouplesList"))
 		{
-		 	//echo"<h3>See readme file or click here for <a href='?type=home'>Home</a></h3>";
 			//  show a list of all available couples
 			$events = new Events();
 			$mrows = $events->get_all_weddings();
 			$couples = $this->model->get_couple_list();
-			include 'view/CoupleList.php';
+			include 'view/CouplesList.php';
+
+		}
+		else
+		{
+			echo"<br><h2>Women Who Code ~ Session 'Create a Dynamic Web App' Demo</h2>";
+		 	echo"<br><h3>See readme file or click here for details about the sample dynamic application <a href='home'>Home</a></h3>";
+
 
 		}
 	}

@@ -29,7 +29,8 @@
             <?php
             if(isset($mrows) && count($mrows) > 0){
               foreach($mrows as $row){
-                echo"<li><a href='?type=dashboard&couple=". $row['couple_id']. "&eID=" . $row['event_id'] ."'>" . $row['couple']."</a></li>";
+
+                echo"<li><a href='dashboard?couple=". $row['couple_id']. "&eID=" . $row['event_id'] ."'>" . $row['couple']."</a></li>";
               }
            }
             ?>
@@ -38,7 +39,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav" href='home'> Couples </a>
+          <a class="nav" href='CouplesList'> Couples </a>
           </li>
       </ul>
     </div>
